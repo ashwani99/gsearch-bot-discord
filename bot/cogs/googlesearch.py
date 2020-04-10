@@ -2,6 +2,8 @@ from discord import Embed, Colour
 from discord.ext import commands
 from googlesearch import search
 
+from store import search_store
+
 class GoogleSearch(commands.Cog, name='Search on Google'):
     def __init__(self, bot):
         self.bot = bot
@@ -32,7 +34,33 @@ class GoogleSearch(commands.Cog, name='Search on Google'):
                 description='\n'.join(numbered_results),
                 colour=Colour.blue()
             )
+            search_store.push_search_query(userid=ctx.author.id, query=query)
             await ctx.send(embed=embed)
+
+    @commands.command(name='recent')
+    async def recent_searches(self, ctx, keyword=None, limit=5):
+        """ Displays recent search history 
+        
+        Usage: !recent [keyword] [limit]
+
+        Optionally, you can provide me with the `keyword` and `limit` of results count.
+        By default, top 5 recent search history will be shown. 
+        """
+
+        await ctx.send(f'{ctx.author.mention} Let me check on this... :thinking:')
+        async with ctx.channel.typing():
+            recent_searches = search_store.get_recent_searches(
+                userid=ctx.author.id,
+                keyword=keyword,
+                limit=limit
+            )
+            embed = Embed(
+                title=f'{ctx.author.name}\'s recent searches',
+                description='\n'.join(recent_searches),
+                colour=Colour.blue()
+            )
+            await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(GoogleSearch(bot))

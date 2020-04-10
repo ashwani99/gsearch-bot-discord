@@ -1,4 +1,6 @@
 import os
 
 DISCORD_TOKEN = os.environ.get('DISCORD_TOKEN')
+DATABASE_URL = os.environ.get('GSEARCH_BOT_DB_URL')
+DATABASE_NAME = 'GSEARCH_BOT_DB'
 BOT_COMMAND_PREFIX = '!'
