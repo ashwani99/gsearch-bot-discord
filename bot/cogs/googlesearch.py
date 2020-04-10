@@ -31,10 +31,14 @@ class GoogleSearch(commands.Cog, name='Search on Google'):
             numbered_results = [f'{index+1}. {url}' for index, url in enumerate(results)]
             embed = Embed(
                 title=f'Search results for `{query}`',
-                description='\n'.join(numbered_results),
+                description='\n'.join(numbered_results) or 'Nothing found :frowning2:',
                 colour=Colour.blue()
             )
-            search_store.push_search_query(userid=ctx.author.id, query=query)
+            search_store.push_search_query(
+                guild_id=ctx.guild.id,
+                user_id=ctx.author.id,
+                query=query
+            )
             await ctx.send(embed=embed)
 
     @commands.command(name='recent')
@@ -50,13 +54,14 @@ class GoogleSearch(commands.Cog, name='Search on Google'):
         await ctx.send(f'{ctx.author.mention} Let me check on this... :thinking:')
         async with ctx.channel.typing():
             recent_searches = search_store.get_recent_searches(
-                userid=ctx.author.id,
+                guild_id=ctx.guild.id,
+                user_id=ctx.author.id,
                 keyword=keyword,
                 limit=limit
             )
             embed = Embed(
                 title=f'{ctx.author.name}\'s recent searches',
-                description='\n'.join(recent_searches),
+                description='\n'.join(recent_searches) or 'Nothing found :frowning2:',
                 colour=Colour.blue()
             )
             await ctx.send(embed=embed)
