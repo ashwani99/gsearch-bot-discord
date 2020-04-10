@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pymongo import MongoClient
+from pymongo import MongoClient, errors
 
 from settings import DATABASE_URL, DATABASE_NAME
 
@@ -9,8 +9,16 @@ class SearchQueryStore:
     collection_name = 'queries'
 
     def __init__(self):
-        self._mongo_client = MongoClient(DATABASE_URL)
-        self.store_collection = self._mongo_client[DATABASE_NAME][SearchQueryStore.collection_name]
+        try:
+            self._mongo_client = MongoClient(DATABASE_URL)
+            self.store_collection = self._mongo_client[DATABASE_NAME][SearchQueryStore.collection_name]
+        except errors.ConnectionFailure:
+            print('''Could not establish a connection to the database
+                  
+                  Please check environment variable GSEARCH_BOT_DB_URL
+                  
+                  Set the environment variable:
+                    export GSEARCH_BOT_DB_URL=<your-database-url>''')
     
     def get_recent_searches(self, userid, keyword, limit):
         keyword = keyword if keyword else ''
@@ -18,7 +26,7 @@ class SearchQueryStore:
             'userid': userid,
             'query': {
                 '$regex': f'.*{keyword}.*'
-            } 
+            }
         })
         return [rs['query'] for rs in recent_searches][:limit]
 
