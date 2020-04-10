@@ -20,7 +20,7 @@ class SearchQueryStore:
                 '$regex': f'.*{keyword}.*'
             } 
         })
-        return [rs['query'] for rs in recent_searches]
+        return [rs['query'] for rs in recent_searches][:limit]
 
     def push_search_query(self, userid, query):
         self.store_collection.insert_one({

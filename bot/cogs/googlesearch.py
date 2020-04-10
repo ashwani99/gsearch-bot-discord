@@ -9,7 +9,7 @@ class GoogleSearch(commands.Cog, name='Search on Google'):
         self.bot = bot
 
     @commands.command(name='google')
-    async def google_search(self, ctx, query: str, limit: int):
+    async def google_search(self, ctx, query: str, limit: int=5):
         """ Finds search results from Google search 
         Usage: !google <query>
         
