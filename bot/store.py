@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pymongo import MongoClient, errors
+from pymongo import MongoClient, errors, DESCENDING
 
 from settings import DATABASE_URL, DATABASE_NAME
 
@@ -20,19 +20,23 @@ class SearchQueryStore:
                   Set the environment variable:
                     export GSEARCH_BOT_DB_URL=<your-database-url>''')
     
-    def get_recent_searches(self, userid, keyword, limit):
+    def get_recent_searches(self, guild_id, user_id, keyword, limit):
         keyword = keyword if keyword else ''
+        
         recent_searches = self.store_collection.find({
-            'userid': userid,
+            'guild_id': guild_id,
+            'user_id': user_id,
             'query': {
                 '$regex': f'.*{keyword}.*'
             }
-        })
+        }).sort('timestamp', DESCENDING)
+
         return [rs['query'] for rs in recent_searches][:limit]
 
-    def push_search_query(self, userid, query):
+    def push_search_query(self, guild_id, user_id, query):
         self.store_collection.insert_one({
-            'userid': userid, 
+            'guild_id': guild_id,
+            'user_id': user_id, 
             'query': query,
             'timestamp': datetime.utcnow()
         })
