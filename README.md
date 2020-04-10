@@ -1,10 +1,18 @@
+<p>
+    <img src="assets/icons8-google-128.png" />
+    <img src="assets/icons8-discord-new-logo-100.png" height=135 /> 
+</p>
+
+*<a target="_blank" href="https://icons8.com/icons/set/google-logo--v1">Google icon</a>, <a target="_blank" href="https://icons8.com/icons/set/discord-new-logo">Discord New Logo icon</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>*
 
 # gsearch-bot-discord
 A discord bot which can be used to fetch search results from Google's search engine. Also supports search history feature
 
 
 ### Demo
-Add the bot to your [Discord](https://discordapp.com/) server from [here](https://discordapp.com/api/oauth2/authorize?client_id=697626974503436358&permissions=141312&scope=bot)
+Add the bot to your [Discord](https://discordapp.com/) server
+
+Invite URL: https://discordapp.com/api/oauth2/authorize?client_id=697626974503436358&permissions=141312&scope=bot
 
 ### Requires
 - [Discord](https://discordapp.com/) account
