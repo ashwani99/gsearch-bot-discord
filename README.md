@@ -49,3 +49,6 @@ python bot/bot.py
 ```
 
 6. You can now generate an invite link for your __gsearch bot__. [Invite your bot](https://discordpy.readthedocs.io/en/latest/discord.html#inviting-your-bot) to your Discord server and start chatting with it!
+
+### License
+GNU GPL v3.0
